@@ -28,25 +28,25 @@ func (suite *AccountTestSuite) TearDownTest(c *C) {
 }
 
 func (suite *AccountTestSuite) TestDecodeTheAccountUuid (c *C) {
-	account := AccountInfo(suite.options)
+	account := AccountInfo(suite.options, nil)
 
 	c.Assert(account.Uuid, Equals, "alksdjfhlakjdsfh12983712")
 }
 
 func (suite *AccountTestSuite) TestDecodeTheAccountEmail (c *C) {
-	account := AccountInfo(suite.options)
+	account := AccountInfo(suite.options, nil)
 
 	c.Assert(account.Email, Equals, "droplet_kit@digitalocean.com")
 }
 
 func (suite *AccountTestSuite) TestDecodeTheAccountEmailVerified (c *C) {
-	account := AccountInfo(suite.options)
+	account := AccountInfo(suite.options, nil)
 
 	c.Assert(account.EmailVerified, Equals, true)
 }
 
 func (suite *AccountTestSuite) TestDecodeTheAccountDropletLimit (c *C) {
-	account := AccountInfo(suite.options)
+	account := AccountInfo(suite.options, nil)
 
 	c.Assert(account.DropletLimit, Equals, 200)
 }

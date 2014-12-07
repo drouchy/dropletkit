@@ -17,7 +17,9 @@ type AccountWrapper struct {
   Account Account
 }
 
-func AccountInfo(options Options) Account {
+type AccountFetcher func(options Options) Account
+
+func AccountFetcherImpl(options Options) Account {
   client := &http.Client{}
   req, _ := http.NewRequest("GET", options.baseUrl + "/" + options.version + "/account", nil)
   req.Header.Add("Authorization", "Bearer " + options.Token)
@@ -28,4 +30,9 @@ func AccountInfo(options Options) Account {
   json.Unmarshal(body, &decoded)
 
   return decoded.Account
+}
+
+func AccountInfo(options Options, fetcher AccountFetcher) Account {
+  if(fetcher == nil) { fetcher = AccountFetcherImpl }
+  return fetcher(options)
 }
