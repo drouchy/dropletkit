@@ -27,28 +27,37 @@ func (suite *AccountTestSuite) TearDownTest(c *C) {
 	suite.mockServer.Close()
 }
 
-func (suite *AccountTestSuite) TestDecodeTheAccountUuid (c *C) {
-	account := AccountInfo(suite.options, nil)
+func (suite *AccountTestSuite) TestDecodesTheAccountUuid (c *C) {
+	account, _ := AccountInfo(suite.options, nil)
 
 	c.Assert(account.Uuid, Equals, "alksdjfhlakjdsfh12983712")
 }
 
-func (suite *AccountTestSuite) TestDecodeTheAccountEmail (c *C) {
-	account := AccountInfo(suite.options, nil)
+func (suite *AccountTestSuite) TestDecodesTheAccountEmail (c *C) {
+	account, _ := AccountInfo(suite.options, nil)
 
 	c.Assert(account.Email, Equals, "droplet_kit@digitalocean.com")
 }
 
-func (suite *AccountTestSuite) TestDecodeTheAccountEmailVerified (c *C) {
-	account := AccountInfo(suite.options, nil)
+func (suite *AccountTestSuite) TestDecodesTheAccountEmailVerified (c *C) {
+	account, _ := AccountInfo(suite.options, nil)
 
 	c.Assert(account.EmailVerified, Equals, true)
 }
 
-func (suite *AccountTestSuite) TestDecodeTheAccountDropletLimit (c *C) {
-	account := AccountInfo(suite.options, nil)
+func (suite *AccountTestSuite) TestDecodesTheAccountDropletLimit (c *C) {
+	account, _ := AccountInfo(suite.options, nil)
 
 	c.Assert(account.DropletLimit, Equals, 200)
+}
+
+func (suite *AccountTestSuite) TestReturnsAnUnauthenticatedErrorIfTheErrorIsWrong (c *C) {
+	suite.options.Token = "invalid"
+
+	account, error := AccountInfo(suite.options, nil)
+
+	c.Assert(account.Email, Equals, "")
+	c.Assert(error, Equals, UnauthenticatedError)
 }
 
 func createMockServer() *httptest.Server {
